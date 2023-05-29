@@ -168,6 +168,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        DanielHe4rt\Scylloquent\CassandraServiceProvider::class,
     ])->toArray(),
 
     /*
