@@ -18,12 +18,13 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @foreach($streamers as $streamer)
                     <tr>
-                        <td>2217823</td>
-                        <td>danielhe4rt</td>
+                        <td>{{ $streamer->streamer_id }}</td>
+                        <td>{{ $streamer->streamer_username }}</td>
                         <td><span class="badge bg-success">Yes</span></td>
-                        <td>12k</td>
-                        <td>34%</td>
+                        <td>{{ $streamer->getMessagesCount() }}</td>
+                        <td>{{ 0 }}%</td>
                         <td>
                             <button class="btn btn-primary btn-sm">
                                 See Messages
@@ -33,21 +34,8 @@
                             </button>
                         </td>
                     </tr>
-                    <tr>
-                        <td>123456</td>
-                        <td>kalanedev</td>
-                        <td><span class="badge bg-danger">No</span></td>
-                        <td>15</td>
-                        <td>100%</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm">
-                                See Messages
-                            </button>
-                            <button class="btn btn-danger btn-sm">
-                                Delete Streamer
-                            </button>
-                        </td>
-                    </tr>
+                    @endforeach
+
                     </tbody>
                 </table>
             </div>

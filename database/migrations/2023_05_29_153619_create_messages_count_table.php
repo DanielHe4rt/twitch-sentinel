@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('streamers', function (Blueprint $table) {
+        Schema::create('messages_count', function (Blueprint $table) {
             $table->string('streamer_id');
-            $table->string('streamer_username');
-            $table->boolean('is_online');
-            $table->timestamp('created_at');
-            $table->primary(['streamer_id', 'streamer_username', 'created_at']);
+            $table->counter('messages_count');
+            $table->primary(['streamer_id']);
         });
     }
 
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('streamers');
+        Schema::dropIfExists('messages_count');
     }
 };

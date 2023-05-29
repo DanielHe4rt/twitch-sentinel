@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Transformers\Twitch;
+namespace App\Connectors\Twitch;
 
 class TwitchCommandTransform
 {

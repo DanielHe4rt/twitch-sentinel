@@ -12,6 +12,18 @@ class Streamer extends Model
     protected $table = 'streamers';
 
     protected $fillable = [
-        'username'
+        'streamer_id',
+        'streamer_username',
+        'is_online',
+        'created_at'
     ];
+
+    public function getMessagesCount(): int
+    {
+        $query = MessageCount::query()
+            ->where('streamer_id', $this->attributes['streamer_id'])
+            ->first();
+
+        return $query?->toArray()['messages_count'] ?: 0;
+    }
 }

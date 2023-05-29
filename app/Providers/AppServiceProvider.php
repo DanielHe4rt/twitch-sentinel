@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\Message\MessageRepository;
+use App\Repositories\Message\MessageScyllaRepository;
+use App\Repositories\Streamer\StreamerRepository;
+use App\Repositories\Streamer\StreamerScyllaRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Console\Migrations\InstallCommand;
 use Illuminate\Database\Migrations\DatabaseMigrationRepository;
@@ -23,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
             return new \DanielHe4rt\Scylloquent\Repository\DatabaseMigrationRepository($app['db'], $table);
         });
 
+        $this->app->bind(MessageRepository::class, MessageScyllaRepository::class);
+        $this->app->bind(StreamerRepository::class, StreamerScyllaRepository::class);
+
         Sanctum::ignoreMigrations();
         $this->app->bind(MigrationRepositoryInterface::class, function ($app) {
             return new InstallCommand($app['migration.repository']);
@@ -34,7 +41,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
         $this->app->singleton(DatabaseMigrationRepository::class, function (Application $app) {
             $table = config('database.migrations');
             return new \DanielHe4rt\Scylloquent\Repository\DatabaseMigrationRepository($app['db'], $table);

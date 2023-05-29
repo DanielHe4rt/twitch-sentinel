@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Transformers\Twitch;
+namespace App\Connectors\Twitch;
 
 use Illuminate\Support\Str;
 
@@ -20,7 +20,6 @@ class RawCommandTransformer
                 continue;
             }
 
-
             [$key, $value] = explode('=', $data);
 
             if (Str::contains($value, ',')) {
@@ -31,6 +30,7 @@ class RawCommandTransformer
 
             $result[$key] = $value;
         }
+
 
         return $result;
     }

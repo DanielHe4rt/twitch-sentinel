@@ -7,38 +7,37 @@ namespace App\Connectors;
  */
 class TwitchConnector
 {
-    protected object $socket;
+    protected $socket;
 
     private static $host = "irc.chat.twitch.tv";
     private static $port = 6667;
 
 
-    public function connect()
+    public function connect($chats = ['danielhe4rt'])
     {
-        $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        if (socket_connect($this->socket, self::$host, self::$port) === FALSE) {
-            return null;
-        }
+        $this->socket = fsockopen('irc.chat.twitch.tv', 6667, $errno, $errstr, 60);
 
         $this->authenticate();
         $this->setNick();
         $this->capabilities();
-        $this->joinChannel('danielhe4rt');
+        $this->joinChannel($chats);
     }
 
-    private function authenticate()
+    private function authenticate(): void
     {
-        $this->send(sprintf("PASS %s", '3123dasdas'));
+        $this->send("PASS", "fodase");
     }
 
     private function setNick()
     {
-        $this->send(sprintf("NICK %s", 'justinfan' . rand(1,99999)));
+        $this->send("NICK", 'justinfan' . rand(1, 99999));
     }
 
-    public function joinChannel($channel)
+    public function joinChannel(array $channels): void
     {
-        $this->send(sprintf("JOIN #%s", $channel));
+        foreach ($channels as $channel) {
+            $this->send("JOIN", "#" . $channel);
+        }
     }
 
     public function getLastError()
@@ -51,22 +50,20 @@ class TwitchConnector
         return !is_null($this->socket);
     }
 
-    public function read($size = 256)
+    public function read()
     {
-        if (!$this->isConnected()) {
-            return null;
-        }
 
-        return socket_read($this->socket, $size);
+        return fgets($this->socket);
     }
 
-    public function send($message)
+    public function send(string $command, string $message): void
     {
-        if (!$this->isConnected()) {
-            return null;
+        if (empty($message)) {
+            fputs($this->socket, $command . '\r\n');
+        } else {
+            $message = trim($message);
+            fputs($this->socket, "$command $message\r\n");
         }
-
-        return socket_write($this->socket, $message . "\n");
     }
 
     public function close()
@@ -76,7 +73,7 @@ class TwitchConnector
 
     private function capabilities()
     {
-        $this->send("CAP REQ twitch.tv/membership");
-        $this->send("CAP REQ twitch.tv/tags");
+        $this->send("CAP REQ", "twitch.tv/membership");
+        $this->send("CAP REQ", "twitch.tv/tags");
     }
 }

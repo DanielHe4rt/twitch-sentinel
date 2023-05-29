@@ -21,4 +21,6 @@ Route::get('/', function () {
 
 Route::prefix('streamers')->group(function () {
     Route::get('/', [StreamersController::class, 'viewStreamers'])->name('streamers.index');
+    Route::get('/create', [StreamersController::class, 'viewCreateStreamer'])->name('streamers.create');
+    Route::post('/create', [StreamersController::class, 'postStreamer'])->name('streamers.post');
 });

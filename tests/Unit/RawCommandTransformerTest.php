@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Transformers\Twitch\RawCommandTransformer;
+use App\Connectors\Twitch\RawCommandTransformer;
 use Tests\TestCase;
 
 class RawCommandTransformerTest extends TestCase

@@ -2,12 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Connectors\DTO\MessageDTO;
+use App\Connectors\Twitch\ChatMessageTransformer;
+use App\Connectors\Twitch\RawCommandTransformer;
+use App\Connectors\Twitch\TwitchCommandTransform;
 use App\Connectors\TwitchConnector;
-use App\Transformers\Twitch\ChatMessageTransformer;
-use App\Transformers\Twitch\RawCommandTransformer;
-use App\Transformers\Twitch\TwitchCommandTransform;
+use App\Repositories\Message\MessageRepository;
+use App\Repositories\Streamer\StreamerRepository;
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Pipeline\Pipeline;
 
 class TwitchBotCommand extends Command
 {
@@ -29,19 +31,47 @@ class TwitchBotCommand extends Command
      * Execute the console command.
      */
     public function handle(
-        TwitchConnector $client,
-        RawCommandTransformer $rawTransformer,
+        TwitchConnector        $client,
+        RawCommandTransformer  $rawTransformer,
         ChatMessageTransformer $chatMessageTransformer,
         TwitchCommandTransform $twitchCommandTransformer,
+        StreamerRepository     $streamerRepository,
+        MessageRepository      $messageRepository
     )
     {
-        $client->connect();
-        sleep(2);
+        $streamerList = $streamerRepository
+            ->getStreamers()
+            ->pluck('streamer_username')
+            ->toArray();
+
+        $client->connect($streamerList);
+
+
+        ob_start();
         while (true) {
-            $rawMessage = $client->read(512);
-            dump($chatMessageTransformer->transform($rawMessage));
-            dump($twitchCommandTransformer->transform($rawMessage));
-            dump($rawTransformer->transform($rawMessage));
+            while ($rawMessage = $client->read()) {
+                $signal = $twitchCommandTransformer->transform($rawMessage);
+
+                if ($signal !== "PRIVMSG") {
+                    continue;
+                }
+
+                $messageDTO = MessageDTO::makeFromTwitch(
+                    $chatMessageTransformer->transform($rawMessage),
+                    $signal,
+                    $rawTransformer->transform($rawMessage)
+                );
+
+                $messageRepository->newMessage($messageDTO);
+                $this->info(sprintf(
+                    '[%s] (%s) %s: %s ',
+                    date('Y-m-d H:i:s'),
+                    $messageDTO->messagePayload['room-id'],
+                    $messageDTO->messagePayload['display-name'],
+                    $messageDTO->message
+                ));
+                flush();
+            }
         }
     }
 }
