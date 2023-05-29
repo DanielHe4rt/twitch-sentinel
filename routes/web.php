@@ -19,4 +19,6 @@ Route::get('/', function () {
 });
 
 
-
+Route::prefix('streamers')->group(function () {
+    Route::get('/', [StreamersController::class, 'viewStreamers'])->name('streamers.index');
+});
