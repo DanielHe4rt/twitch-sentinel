@@ -40,7 +40,6 @@ return [
         ['streamer_id' => '', 'streamer_username' => 'TimTheTatman'],
         ['streamer_id' => '', 'streamer_username' => 'NICKMERCS'],
         ['streamer_id' => '', 'streamer_username' => 'Dream'],
-        ['streamer_id' => '', 'streamer_username' => 'AMOURANTH'],
         ['streamer_id' => '', 'streamer_username' => 'SypherPK'],
         ['streamer_id' => '', 'streamer_username' => 'summit1g'],
         ['streamer_id' => '', 'streamer_username' => 'ESL_CSGO'],
