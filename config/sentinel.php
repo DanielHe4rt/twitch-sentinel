@@ -25,7 +25,6 @@ return [
         ['streamer_id' => '', 'streamer_username' => 'auronplay'],
         ['streamer_id' => '', 'streamer_username' => 'Rubius'],
         ['streamer_id' => '', 'streamer_username' => 'ibai'],
-        ['streamer_id' => '', 'streamer_username' => 'xQc'],
         ['streamer_id' => '', 'streamer_username' => 'Tfue'],
         ['streamer_id' => '', 'streamer_username' => 'TheGrefg'],
         ['streamer_id' => '', 'streamer_username' => 'shroud'],
