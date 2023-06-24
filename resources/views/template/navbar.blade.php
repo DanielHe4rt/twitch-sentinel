@@ -22,8 +22,8 @@
     <div class="dropdown">
         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
            id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="" class="rounded-circle me-2" width="32" height="32">
-            <strong>mdo</strong>
+            <img src="https://github.com/danielhe4rt.png" alt="" class="rounded-circle me-2" width="32" height="32">
+            <strong>danielhe4rt</strong>
         </a>
         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
             <li><a class="dropdown-item" href="#">New project...</a></li>

@@ -11,6 +11,6 @@ class StreamerScyllaRepository implements StreamerRepository
 
     public function getStreamers(): Collection
     {
-        return DB::table('streamers')->get();
+        return DB::connection('scylla')->table('streamers')->get();
     }
 }

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('streamers', function (Blueprint $table) {
+        Schema::connection('scylla')->create('streamers', function (Blueprint $table) {
             $table->string('streamer_id');
             $table->string('streamer_username');
             $table->boolean('is_online');
             $table->timestamp('created_at');
-            $table->primary(['streamer_id', 'streamer_username', 'created_at']);
+            $table->primary(['streamer_id', 'created_at', 'streamer_username']);
         });
     }
 

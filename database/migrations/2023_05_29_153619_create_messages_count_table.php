@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('messages_count', function (Blueprint $table) {
+        Schema::connection('scylla')->create('messages_count', function (Blueprint $table) {
             $table->string('streamer_id');
             $table->counter('messages_count');
             $table->primary(['streamer_id']);

@@ -2,13 +2,15 @@
 
 namespace App\Console\Commands;
 
-use App\Connectors\DTO\MessageDTO;
-use App\Connectors\Twitch\ChatMessageTransformer;
-use App\Connectors\Twitch\RawCommandTransformer;
-use App\Connectors\Twitch\TwitchCommandTransform;
-use App\Connectors\TwitchConnector;
+use App\Clients\TwitchClient;
+use App\Console\Commands\MessageDTO;
 use App\Repositories\Message\MessageRepository;
+use GhostZero\Tmi\Client;
+use GhostZero\Tmi\ClientOptions;
+use GhostZero\Tmi\Events\Twitch\MessageEvent;
 use App\Repositories\Streamer\StreamerRepository;
+use GhostZero\TmiCluster\Contracts\ChannelManager;
+use GhostZero\TmiCluster\TwitchLogin;
 use Illuminate\Console\Command;
 
 class TwitchBotCommand extends Command
@@ -31,47 +33,49 @@ class TwitchBotCommand extends Command
      * Execute the console command.
      */
     public function handle(
-        TwitchConnector        $client,
-        RawCommandTransformer  $rawTransformer,
-        ChatMessageTransformer $chatMessageTransformer,
-        TwitchCommandTransform $twitchCommandTransformer,
-        StreamerRepository     $streamerRepository,
-        MessageRepository      $messageRepository
+        StreamerRepository $streamerRepository,
+        MessageRepository  $messageRepository
     )
     {
-        $streamerList = $streamerRepository
-            ->getStreamers()
-            ->pluck('streamer_username')
-            ->toArray();
+        $this->info('count' . count(config('sentinel.streamers')));
+        $channelManager = app(ChannelManager::class);
+        $twitchClient = app(TwitchClient::class);
 
-        $client->connect($streamerList);
-
-
-        ob_start();
-        while (true) {
-            while ($rawMessage = $client->read()) {
-                $signal = $twitchCommandTransformer->transform($rawMessage);
-
-                if ($signal !== "PRIVMSG") {
-                    continue;
-                }
-
-                $messageDTO = MessageDTO::makeFromTwitch(
-                    $chatMessageTransformer->transform($rawMessage),
-                    $signal,
-                    $rawTransformer->transform($rawMessage)
-                );
-
-                $messageRepository->newMessage($messageDTO);
-                $this->info(sprintf(
-                    '[%s] (%s) %s: %s ',
-                    date('Y-m-d H:i:s'),
-                    $messageDTO->messagePayload['room-id'],
-                    $messageDTO->messagePayload['display-name'],
-                    $messageDTO->message
-                ));
-                flush();
-            }
+        foreach (config('sentinel.categories') as $category) {
+            collect($twitchClient->getStreamsByCategory($category)->json()['data'])
+                ->each(function ($stream) use ($channelManager, $twitchClient) {
+                    $channelManager->authorize(new TwitchLogin($stream['user_login']), ['reconnect' => true]);
+                    $this->info(sprintf('Connected to %s on %s category', $stream['user_login'], $stream['game_name']));
+                });
         }
+
+        $client = new Client(new ClientOptions([
+            'connection' => [
+                'secure' => true,
+                'reconnect' => true,
+                'rejoin' => true,
+            ],
+            'channels' => collect(config('sentinel.streamers'))->pluck('streamer_username')->toArray()
+        ]));
+
+        $client->on(MessageEvent::class, function (MessageEvent $e) use ($messageRepository) {
+            $messageDTO = MessageDTO::makeFromTwitch(
+                utf8_encode($e->message),
+                $e->tags->getTags()
+            );
+
+            $messageRepository->newMessage($messageDTO);
+            $this->info(sprintf(
+                '[%s] (%s) %s: %s ',
+                date('Y-m-d H:i:s'),
+                $messageDTO->messagePayload['room-id'],
+                $messageDTO->messagePayload['display-name'],
+                $messageDTO->message
+            ));
+        });
+
+        $client->connect();
+
     }
+
 }

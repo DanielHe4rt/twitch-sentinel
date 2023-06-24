@@ -13,7 +13,7 @@ class StreamersController extends Controller
     public function viewStreamers()
     {
         return view('streamers.index', [
-            'streamers' => Streamer::all()
+            'streamers' => Streamer::paginate()
         ]);
     }
 
@@ -25,7 +25,6 @@ class StreamersController extends Controller
     public function postStreamer(Request $request)
     {
         $validated = $this->validate($request, [
-            'streamer_id' => ['string', 'required'],
             'streamer_username' => ['string', 'required']
         ]);
 

@@ -38,6 +38,7 @@
 
                     </tbody>
                 </table>
+                {{ $streamers->links() }}
             </div>
         </div>
     </div>

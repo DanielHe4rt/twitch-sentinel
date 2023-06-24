@@ -9,6 +9,10 @@ class Streamer extends Model
 {
     use HasFactory;
 
+    protected $connection = 'scylla';
+
+    protected $primaryKey = 'streamer_id';
+
     protected $table = 'streamers';
 
     protected $fillable = [

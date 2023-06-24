@@ -18,7 +18,6 @@ class MessageFactory extends Factory
             'chatter_badges' => 'lalal',
             'chatter_message' => fake()->sentence(),
             'sent_at' => new Timestamp(Carbon::now()->getTimestamp() * 1000, 0),
-            'created_at' => new Timestamp(Carbon::now()->getTimestamp() * 1000, 0)
         ];
     }
 }

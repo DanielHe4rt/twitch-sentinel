@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+
 use DanielHe4rt\Scylloquent\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Message extends Model
 {
     use HasFactory;
+
+    protected $connection = 'scylla';
 
     protected $table = 'messages';
 
@@ -18,6 +21,10 @@ class Message extends Model
         'chatter_badges',
         'chatter_message',
         'sent_at',
-        'created_at'
     ];
+
+    protected $casts = [
+        'sent_at' => 'datetime'
+    ];
+
 }

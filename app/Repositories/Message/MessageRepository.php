@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Message;
 
-use App\Connectors\DTO\MessageDTO;
+
+
+use App\Console\Commands\MessageDTO;
 
 interface MessageRepository
 {

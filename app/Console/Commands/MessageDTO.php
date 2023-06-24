@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Connectors\DTO;
-
+namespace App\Console\Commands;
 class MessageDTO
 {
     public function __construct(
         public readonly string $message,
-        public readonly string $signal,
         public readonly array  $messagePayload
     )
     {
@@ -15,11 +13,10 @@ class MessageDTO
 
     public static function makeFromTwitch(
         string $message,
-        string $signal,
         array  $messagePayload
     ): self
     {
-        return new self(message: $message, signal: $signal, messagePayload: $messagePayload);
+        return new self(message: $message, messagePayload: $messagePayload);
     }
 
     public function toDatabase(): array
@@ -31,7 +28,6 @@ class MessageDTO
             'chatter_badges' => (string)'abc',
             'chatter_message' => (string)$this->message,
             'sent_at' => $this->messagePayload['tmi-sent-ts'],
-            'created_at' => $this->messagePayload['tmi-sent-ts']
         ];
     }
 }

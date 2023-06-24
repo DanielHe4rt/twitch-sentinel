@@ -9,10 +9,13 @@ class MessageCount extends Model
 {
     use HasFactory;
 
+    protected $connection = 'scylla';
+
     protected $table = 'messages_count';
 
     protected $fillable = [
         'streamer_id',
         'messages_count'
     ];
+
 }
