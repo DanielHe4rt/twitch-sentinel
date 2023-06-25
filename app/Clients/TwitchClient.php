@@ -30,4 +30,19 @@ class TwitchClient
             'Client-Id' => config('sentinel.twitch.client_id'),
         ])->get('https://api.twitch.tv/helix/streams', $query);
     }
+
+    public function getStreamsByCategory(string $category, string $page = null)
+    {
+        $query = [
+            'type' => 'live',
+            'after' => $page,
+            'game_id' => $category,
+            'first' => 100
+        ];
+
+        return Http::withHeaders([
+            'Authorization' => 'Bearer ' . config('sentinel.twitch.app_bearer'),
+            'Client-Id' => config('sentinel.twitch.client_id'),
+        ])->get('https://api.twitch.tv/helix/streams', $query);
+    }
 }
