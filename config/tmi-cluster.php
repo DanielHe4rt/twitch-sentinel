@@ -156,7 +156,7 @@ return [
     'process' => [
         'stale' => 90,
         'timeout' => 60,
-        'memory' => 512,
+        'memory' => 256,
         'periodic_timer' => 2,
     ],
 
@@ -174,13 +174,13 @@ return [
     'auto_scale' => [
         'restore' => true,
         'processes' => [
-            'min' => 50,
-            'max' => 60
+            'min' => 15,
+            'max' => 40
         ],
         'thresholds' => [
-            'channels' => 500,
-            'scale_in' => 200,
-            'scale_out' => 200,
+            'channels' => 1500,
+            'scale_in' => 500,
+            'scale_out' => 500,
         ],
     ],
 
@@ -240,13 +240,13 @@ return [
 
         'auto_cleanup' => [
             'enabled' => true,
-            'interval' => 300,
-            'max_delay' => 600,
+            'interval' => 100,
+            'max_delay' => 300,
         ],
 
         'channel' => [
             'restrict_messages' => true,
-            'stale' => 168,
+            'stale' => 300,
         ],
     ],
 
