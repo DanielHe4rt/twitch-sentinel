@@ -178,9 +178,9 @@ return [
             'max' => 50
         ],
         'thresholds' => [
-            'channels' => 1200,
-            'scale_in' => 100,
-            'scale_out' => 100,
+            'channels' => 500,
+            'scale_in' => 50,
+            'scale_out' => 50,
         ],
     ],
 
