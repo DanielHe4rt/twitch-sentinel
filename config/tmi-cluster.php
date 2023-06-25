@@ -246,7 +246,7 @@ return [
 
         'channel' => [
             'restrict_messages' => true,
-            'stale' => 300,
+            'stale' => 150,
         ],
     ],
 
