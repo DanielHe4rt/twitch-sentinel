@@ -50,12 +50,6 @@ class TmiEventSubscriber implements ShouldQueue
             MessageEvent::class => [
                 [__CLASS__, 'handleMessageEvent']
             ],
-            CheerEvent::class => [
-                [__CLASS__, 'handleMessageEvent']
-            ],
-            SubEvent::class => [
-                [__CLASS__, 'handleMessageEvent']
-            ],
         ];
     }
 }
