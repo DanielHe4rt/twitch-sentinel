@@ -156,7 +156,7 @@ return [
     'process' => [
         'stale' => 90,
         'timeout' => 60,
-        'memory' => 256,
+        'memory' => 512,
         'periodic_timer' => 2,
     ],
 
@@ -174,12 +174,12 @@ return [
     'auto_scale' => [
         'restore' => true,
         'processes' => [
-            'min' => 10,
+            'min' => 20,
             'max' => 40
         ],
         'thresholds' => [
-            'channels' => 50,
-            'scale_in' => 50,
+            'channels' => 75,
+            'scale_in' => 75,
             'scale_out' => 70,
         ],
     ],
