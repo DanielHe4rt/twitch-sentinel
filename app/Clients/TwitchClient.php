@@ -17,16 +17,22 @@ class TwitchClient
         ]);
     }
 
-    public function getStreamsByCategory(string $category)
+    public function getStreamsByCategory(string $category = null, string $page = null)
     {
+        $query = [
+            'type' => 'live',
+            'after' => $page,
+            'first' => 100
+        ];
+
+        if (!is_null($category)) {
+            $query['game_id'] = $category;
+        }
+
         return Http::withHeaders([
             'Authorization' => 'Bearer ' . config('sentinel.twitch.app_bearer'),
             'Client-Id' => config('sentinel.twitch.client_id'),
-        ])->get('https://api.twitch.tv/helix/streams', [
-            'game_id' => $category,
-            'type' => 'live',
-            'first' => 100
-        ]);
+        ])->get('https://api.twitch.tv/helix/streams', $query);
 
     }
 }

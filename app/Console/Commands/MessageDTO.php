@@ -3,20 +3,16 @@
 namespace App\Console\Commands;
 class MessageDTO
 {
-    public function __construct(
-        public readonly string $message,
-        public readonly array  $messagePayload
-    )
-    {
+    public string $message;
+    public array $messagePayload;
 
-    }
-
-    public static function makeFromTwitch(
+    public function makeFromTwitch(
         string $message,
         array  $messagePayload
-    ): self
+    ): void
     {
-        return new self(message: $message, messagePayload: $messagePayload);
+        $this->message = $message;
+        $this->messagePayload = $messagePayload;
     }
 
     public function toDatabase(): array

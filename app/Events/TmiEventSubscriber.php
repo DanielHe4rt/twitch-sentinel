@@ -11,18 +11,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class TmiEventSubscriber implements ShouldQueue
 {
-    public function __construct(private readonly MessageRepository $messageRepository)
+
+    public function __construct(
+        private readonly MessageRepository $messageRepository,
+        private MessageDTO                 $messageDTO
+    )
     {
     }
 
     public function handleMessageEvent(MessageEvent $event): void
     {
-        $messageDTO = MessageDTO::makeFromTwitch(
+        $this->messageDTO->makeFromTwitch(
             utf8_encode($event->message),
             $event->tags->getTags()
         );
 
-        $this->messageRepository->newMessage($messageDTO);
+        $this->messageRepository->newMessage($this->messageDTO);
     }
 
     public function handleCheerEvent(CheerEvent $event): void

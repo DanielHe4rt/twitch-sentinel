@@ -19,6 +19,14 @@ return [
         'final-fantasy-xvi' => 2090279788,
         'csgo' => 32399,
         'fortnite' => 33214,
+        'street-fighter-6' => 55453844,
+        'dota-2' => 29595,
+        'sports' => 518203,
+        'fifa-23' => 1745202732,
+        'apex-legends' => 511224,
+        'only-up' => 245018539,
+        'world-of-warcraft' => 18122,
+        'dead-by-daylight' => 491487
     ],
     'streamers' => [
         ['streamer_id' => '227168488', 'streamer_username' => 'danielhe4rt'],
