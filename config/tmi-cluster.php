@@ -174,7 +174,7 @@ return [
     'auto_scale' => [
         'restore' => true,
         'processes' => [
-            'min' => 30,
+            'min' => 25,
             'max' => 40
         ],
         'thresholds' => [
