@@ -110,7 +110,7 @@ return [
     |
     */
 
-    'memory_limit' => 64,
+    'memory_limit' => 126,
 
     /*
     |--------------------------------------------------------------------------
@@ -175,12 +175,12 @@ return [
         'restore' => true,
         'processes' => [
             'min' => 20,
-            'max' => 40
+            'max' => 60
         ],
         'thresholds' => [
-            'channels' => 75,
-            'scale_in' => 75,
-            'scale_out' => 70,
+            'channels' => 250,
+            'scale_in' => 125,
+            'scale_out' => 125,
         ],
     ],
 
