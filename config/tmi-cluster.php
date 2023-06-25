@@ -174,11 +174,11 @@ return [
     'auto_scale' => [
         'restore' => true,
         'processes' => [
-            'min' => 20,
+            'min' => 50,
             'max' => 60
         ],
         'thresholds' => [
-            'channels' => 250,
+            'channels' => 400,
             'scale_in' => 125,
             'scale_out' => 125,
         ],
