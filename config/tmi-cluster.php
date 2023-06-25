@@ -178,9 +178,9 @@ return [
             'max' => 40
         ],
         'thresholds' => [
-            'channels' => 1500,
-            'scale_in' => 500,
-            'scale_out' => 500,
+            'channels' => 1000,
+            'scale_in' => 50,
+            'scale_out' => 50,
         ],
     ],
 
@@ -240,8 +240,8 @@ return [
 
         'auto_cleanup' => [
             'enabled' => true,
-            'interval' => 100,
-            'max_delay' => 300,
+            'interval' => 300,
+            'max_delay' => 600,
         ],
 
         'channel' => [
