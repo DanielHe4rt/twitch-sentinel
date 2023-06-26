@@ -183,7 +183,7 @@ return [
         'supervisor-1' => [
             'connection' => 'redis',
             'queue' => ['default'],
-            'balance' => 'simple',
+            'balance' => 'auto',
             'autoScalingStrategy' => 'time',
             'maxProcesses' => 100,
             'maxTime' => 0,
