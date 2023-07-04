@@ -46,11 +46,11 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => env('DB_MYSQL_HOST', '127.0.0.1'),
+            'port' => env('DB_MYSQL_PORT', '3306'),
+            'database' => env('DB_MYSQL_DATABASE', 'forge'),
+            'username' => env('DB_MYSQL_USERNAME', 'forge'),
+            'password' => env('DB_MYSQL_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
@@ -93,6 +93,28 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        'scylla' => [
+            'driver'          => 'cassandra',
+            'scheme'          => env('DB_SCHEME', 'tcp'),
+            'host'            => env('DB_HOST', 'localhost'),
+            'port'            => env('DB_PORT', 9042),
+            'keyspace'        => env('DB_DATABASE'),
+            'username'        => env('DB_USERNAME'),
+            'password'        => env('DB_PASSWORD'),
+            'page_size'       => env('DB_PAGE_SIZE', 5000),
+            'consistency'     => Cassandra::CONSISTENCY_LOCAL_ONE,
+            'timeout'         => 3,
+            'connect_timeout' => 5.0,
+            'request_timeout' => 12.0,
+            'ssl' => [
+                'verify_peer' => env('DB_SSL_VERIFY_PEER', false),
+                'trusted_cert' => env('DB_SSL_TRUSTED_CERT_FILE', null),
+                'client_cert' => env('DB_SSL_CLIENT_CERT_FILE', null),
+                'private_cert' => env('DB_SSL_PRIVATE_CERT_FILE', null),
+                'private_passphrase' => env('DB_SSL_PRIVATE_PASSPHRASE', null),
+            ],
+        ],
+
     ],
 
     /*
@@ -121,7 +143,7 @@ return [
 
     'redis' => [
 
-        'client' => env('REDIS_CLIENT', 'phpredis'),
+        'client' => env('REDIS_CLIENT', 'predis'),
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
